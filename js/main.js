@@ -1,24 +1,17 @@
 const btnPlay = document.getElementById('btn-play');
+const inputDifficulty = document.querySelector("[name='difficulty']");
+let bombsTotal;
 
 
 btnPlay.addEventListener('click', function () {
-    console.log(this);
+    const difficultyLevel = inputDifficulty.value;
 
-    const inputDifficulty = document.querySelector("[name='difficulty']");
+    bombsTotal = createBombs(parseInt(difficultyLevel));
 
-    let gridCells = '';
-    if (inputDifficulty.value === '1') {
-        gridCells = 100;
-    } else if (inputDifficulty.value === '2') {
-        gridCells = 81;
-    } else if (inputDifficulty.value === '3') {
-        gridCells = 49;
-    }
-
-    createGrid (gridCells);
+    createGrid(+difficultyLevel);
 })
 
-function createGrid (celleTotali) {
+function createGrid(celleTotali) {
     const grid = document.getElementById('grid-container');
 
     grid.innerHTML = "";
@@ -33,13 +26,51 @@ function createGrid (celleTotali) {
         newCell.style.flexBasis = 100 / cellRow + '%';
 
         // numero progressivo da 1 a 100
-        newCell.innerHTML = i + 1;
-        grid.append(newCell);
+        newCell.textContent = i + 1;
+
+        //numero cella:attributo
+        newCell.dataset.cellNum = i + 1;
 
         // click:cambio colore + messaggio in console 
-        newCell.addEventListener('click', function () {
-            newCell.classList.toggle("bg-primary");
-            console.log(this.textContent);
-        })
+        newCell.addEventListener('click', onClickCell);
+
+        grid.append(newCell);
     }
 }
+
+//funzione al click della cella
+function onClickCell() {
+    const cellNum = +this.dataset.cellNum;
+
+    //numero = bomba
+    if (bombsTotal.includes(cellNum)) {
+        this.classList.add("bg-danger");
+    } else {
+        this.classList.toggle("bg-primary");
+    }
+
+    console.log(this.textContent);
+}
+
+//generare numero random
+function numRandom (min, max) {
+	return Math.floor(Math.random () * (max - min + 1) ) + min;
+}
+
+//creare le bombe 
+function createBombs(celleTotali) {
+    const bombs = [];
+
+    //16 bombe 
+    while (bombs.lenght < 16) {
+        const number = numRandom(1, celleTotali);
+
+        //controllo numeri uguali
+        if (!bombs.includes(number)) {
+            bombs.push(number);
+        }
+    }
+
+    return bombs;
+}
+
