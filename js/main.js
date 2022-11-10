@@ -62,7 +62,7 @@ function createBombs(celleTotali) {
     const bombs = [];
 
     //16 bombe 
-    while (bombs.lenght < 16) {
+    while (bombs.length < 16) {
         const number = numRandom(1, celleTotali);
 
         //controllo numeri uguali
