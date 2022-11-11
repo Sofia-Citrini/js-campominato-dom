@@ -5,3 +5,7 @@
     justify-content: center;
     align-items: center;
 }
+
+.disable-click {
+    pointer-events: none;
+}

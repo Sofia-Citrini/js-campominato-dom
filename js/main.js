@@ -1,4 +1,5 @@
 const btnPlay = document.getElementById('btn-play');
+const grid = document.getElementById('grid-container');
 const inputDifficulty = document.querySelector("[name='difficulty']");
 const resultEl = document.querySelector(".result-container");
 let bombsTotal;
@@ -13,11 +14,11 @@ btnPlay.addEventListener('click', function () {
 
     counter = 0;
     resultEl.innerHTML = '';
+
+    grid.classList.remove("disable-click");
 })
 
 function createGrid(celleTotali) {
-    const grid = document.getElementById('grid-container');
-
     grid.innerHTML = "";
     
     // celle per ogni riga
@@ -35,7 +36,7 @@ function createGrid(celleTotali) {
         //numero cella:attributo
         newCell.dataset.cellNum = i + 1;
 
-        // click:cambio colore + messaggio in console 
+        // click:cambio colore  
         newCell.addEventListener('click', onClickCell);
 
         grid.append(newCell);
@@ -50,12 +51,12 @@ function onClickCell() {
     if (bombsTotal.includes(cellNum)) {
         this.classList.add("bg-danger");
         resultEl.innerHTML = `il tuo punteggio é ${counter}`;
+        grid.classList.add ("disable-click");
+    
     } else {
         this.classList.add("bg-primary");
         counter += 1;
     }
-
-    console.log(counter);
 }
 
 //generare numero random
