@@ -81,3 +81,4 @@ function createBombs(celleTotali) {
     return bombs;
 }
 
+;
