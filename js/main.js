@@ -5,11 +5,15 @@ const resultEl = document.querySelector(".result-container");
 let bombsTotal;
 let counter = 0;
 
+
 btnPlay.addEventListener('click', function () {
     const difficultyLevel = inputDifficulty.value;
 
-    bombsTotal = createBombs(parseInt(difficultyLevel));
+    if (difficultyLevel == "unselected"){
+        return
+    }
 
+    bombsTotal = createBombs(parseInt(difficultyLevel));
     createGrid(+difficultyLevel);
 
     counter = 0;
@@ -50,12 +54,22 @@ function onClickCell() {
     //numero = bomba
     if (bombsTotal.includes(cellNum)) {
         this.classList.add("bg-danger");
+        showBombs()
         resultEl.innerHTML = `il tuo punteggio é ${counter}`;
         grid.classList.add ("disable-click");
     
     } else {
         this.classList.add("bg-primary");
         counter += 1;
+    }
+}
+
+function showBombs(){
+    for (let i = 0; i < bombsTotal.length; i++){
+        cell = document.querySelector(`[data-cell-num="${bombsTotal[i]}"]`)
+        if (!cell.classList.contains('bg-danger')){
+            cell.classList.add('bg-danger');
+        }
     }
 }
 
